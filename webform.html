@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <script>
+        function validateForm() {
+            var x = document.forms["myForm"]["message"].value;
+            if (x == "") {
+                alert("Name must be filled out");
+                return false;
+            }
+        }
+
+        window.addEventListener( "load", function () {
+            function sendData() {
+                const XHR = new XMLHttpRequest();
+                var x = document.forms["myForm"]["message"].value;
+
+                // Set up our request
+                XHR.open( 'GET', 'http://localhost:8081/message/'+x,true);
+
+                // The data sent is what the user provided in the form
+                XHR.send();
+                document.forms["myForm"]["message"].value="";
+            }
+
+            // Access the form element...
+            let form = document.getElementById( "myForm" );
+
+            // ...and take over its submit event.
+            form.addEventListener( "submit", function ( event ) {
+                event.preventDefault();
+                sendData();
+            } );
+        } );
+
+    </script>
+</head>
+<body>
+
+
+<form id="myForm" onsubmit="return validateForm()">
+    <label for="message">Send me your message:</label>
+    <input id="message" name="message">
+    <input type="submit" value="Send!">
+</form>
+
+</body>
+</html>
